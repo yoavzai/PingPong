@@ -3,9 +3,6 @@
   <script src="https://www.puck-js.com/puck.js"></script>
 </head>
 <body>
-<p>Click 'Add Device' to add a new device. Once added, you can toggle
-LED1 by pressing the button, and the current temperature will be reported
-to the right-hand side.</p>
 <div id="devices"></div>
 <button id="addDevice">Add Device</button>
 <script>
@@ -59,5 +56,89 @@ document.getElementById("addDevice").addEventListener('click', event => {
   });
 });
 </script>
+      <div class="scoreboard">
+        <div class="score green">
+            <div id="scoreGreen">0</div>
+            <div class="controls">
+                <button onclick="changeScore('green', 1)">+</button>
+                <button onclick="changeScore('green', -1)">-</button>
+            </div>
+        </div>
+        <div class="score red">
+            <div id="scoreRed">0</div>
+            <div class="controls">
+                <button onclick="changeScore('red', 1)">+</button>
+                <button onclick="changeScore('red', -1)">-</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const MIN_SCORE = 0;
+        const MAX_SCORE = 99;
+
+        function changeScore(color, delta) {
+            const scoreElement = document.getElementById(`score${capitalize(color)}`);
+            let currentScore = parseInt(scoreElement.textContent);
+            let newScore = currentScore + delta;
+
+            if (newScore < MIN_SCORE) newScore = MIN_SCORE;
+            if (newScore > MAX_SCORE) newScore = MAX_SCORE;
+
+            scoreElement.textContent = newScore;
+        }
+
+        function capitalize(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+    </script>
 </body>
+      <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            width: 80%;
+        }
+        .score {
+            text-align: center;
+            width: 200px;
+            font-size: 4em;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .score.green {
+            color: green;
+        }
+        .score.red {
+            color: red;
+        }
+        .controls {
+            margin-top: 20px;
+        }
+        button {
+            font-size: 1.5em;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            margin: 5px;
+        }
+        button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+    </style>
 </html>
